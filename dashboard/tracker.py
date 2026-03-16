@@ -24,8 +24,11 @@ def log_visitor():
         raw_ip = headers.get("X-Forwarded-For", "")
         ip_list = [i.strip() for i in raw_ip.split(",") if i.strip()] if raw_ip else []
         public_ip = next((i for i in reversed(ip_list) if not i.startswith(("10.", "172.", "192.168."))), None)
-        ip = public_ip or (ip_list[0] if ip_list else "Unknown")
+        ip = public_ip or (ip_list[0] if ip_list else None)
         user_agent = headers.get("User-Agent", "Unknown")
+
+        if not ip or user_agent == "Unknown":
+            return
 
         # populating ipinfo details
         org, city = "Unknown", "Unknown"
