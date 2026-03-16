@@ -5,10 +5,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
+from tracker import log_visitor
 
 # Config
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
+
+log_visitor()
 
 st.set_page_config(
     page_title="EPC Procurement Intelligence",
