@@ -12,6 +12,8 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 log_visitor()
+if st.session_state.get("_tracker_error"):
+    st.error(f"Tracker error: {st.session_state._tracker_error}")
 
 st.set_page_config(
     page_title="EPC Procurement Intelligence",

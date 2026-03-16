@@ -55,6 +55,5 @@ def log_visitor():
 
         st.session_state._visitor_logged = True
 
-    except Exception:
-        # Never crash the app due to tracking failure
-        pass
+    except Exception as e:
+        st.session_state._tracker_error = str(e)
