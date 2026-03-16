@@ -292,7 +292,7 @@ except Exception as e:
 # PAGE 1 — OVERVIEW
 
 if page == "Overview":
-    st.markdown("<div class='page-title'>Overview — O&G Equipment Procurement</div>",
+    st.markdown("<div class='page-title'>Overview — Oil & Gas Equipment Procurement</div>",
                 unsafe_allow_html=True)
 
     # KPI row
