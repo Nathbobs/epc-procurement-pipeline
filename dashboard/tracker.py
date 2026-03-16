@@ -25,6 +25,8 @@ def log_visitor():
         ip = raw_ip.split(",")[0].strip() if raw_ip else None
         user_agent = headers.get("User-Agent", "Unknown")
 
+        st.session_state._tracker_debug = f"ip={ip} | raw={raw_ip} | ua={user_agent}"
+
         if not ip:
             return
 
