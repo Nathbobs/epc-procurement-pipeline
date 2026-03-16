@@ -33,6 +33,7 @@ def log_visitor():
         handler = ipinfo.getHandler(ipinfo_token)
         details = handler.getDetails(ip)
         data = details.all
+        st.session_state._tracker_debug = str(data)
         org  = data.get("org",  "Unknown")
         city = data.get("city", "Unknown")
 
