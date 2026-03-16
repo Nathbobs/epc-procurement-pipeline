@@ -23,21 +23,18 @@ def log_visitor():
         headers = st.context.headers
         raw_ip = headers.get("X-Forwarded-For", "")
         ip_list = [i.strip() for i in raw_ip.split(",") if i.strip()] if raw_ip else []
-        ip = next((i for i in reversed(ip_list) if not i.startswith(("10.", "172.", "192.168."))), None)
+        public_ip = next((i for i in reversed(ip_list) if not i.startswith(("10.", "172.", "192.168."))), None)
+        ip = public_ip or (ip_list[0] if ip_list else "Unknown")
         user_agent = headers.get("User-Agent", "Unknown")
 
-
-        if not ip:
-            return
-
         # populating ipinfo details
-        ipinfo_token = (os.getenv("IPINFO_TOKEN") or st.secrets.get("IPINFO_TOKEN", "")).strip()
-        handler = ipinfo.getHandler(ipinfo_token)
-        details = handler.getDetails(ip)
-        data = details.all
-        st.session_state._tracker_debug = str(data)
-        org  = data.get("org",  "Unknown")
-        city = data.get("city", "Unknown")
+        org, city = "Unknown", "Unknown"
+        if public_ip:
+            ipinfo_token = (os.getenv("IPINFO_TOKEN") or st.secrets.get("IPINFO_TOKEN", "")).strip()
+            handler = ipinfo.getHandler(ipinfo_token)
+            data = handler.getDetails(public_ip).all
+            org  = data.get("org",  "Unknown")
+            city = data.get("city", "Unknown")
 
         # #writing to google sheets
         sheet_id = os.getenv("GOOGLE_SHEET_ID") or st.secrets.get("GOOGLE_SHEET_ID")
