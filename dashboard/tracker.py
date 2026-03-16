@@ -26,7 +26,6 @@ def log_visitor():
         ip = next((i for i in reversed(ip_list) if not i.startswith(("10.", "172.", "192.168."))), None)
         user_agent = headers.get("User-Agent", "Unknown")
 
-        st.session_state._tracker_debug = dict(headers)
 
         if not ip:
             return
@@ -59,5 +58,5 @@ def log_visitor():
 
         st.session_state._visitor_logged = True
 
-    except Exception as e:
-        st.session_state._tracker_error = str(e)
+    except Exception:
+        pass
