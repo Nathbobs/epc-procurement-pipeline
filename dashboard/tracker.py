@@ -29,11 +29,12 @@ def log_visitor():
             return
 
         # populating ipinfo details
-        ipinfo_token = os.getenv("IPINFO_TOKEN") or st.secrets.get("IPINFO_TOKEN")
+        ipinfo_token = (os.getenv("IPINFO_TOKEN") or st.secrets.get("IPINFO_TOKEN", "")).strip()
         handler = ipinfo.getHandler(ipinfo_token)
         details = handler.getDetails(ip)
-        org  = getattr(details, "org",  "Unknown")
-        city = getattr(details, "city", "Unknown")
+        data = details.all
+        org  = data.get("org",  "Unknown")
+        city = data.get("city", "Unknown")
 
         # #writing to google sheets
         sheet_id = os.getenv("GOOGLE_SHEET_ID") or st.secrets.get("GOOGLE_SHEET_ID")
