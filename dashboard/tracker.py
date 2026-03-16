@@ -22,7 +22,8 @@ def log_visitor():
         # # capturing request headers
         headers = st.context.headers
         raw_ip = headers.get("X-Forwarded-For", "")
-        ip = raw_ip.split(",")[0].strip() if raw_ip else None
+        ip_list = [i.strip() for i in raw_ip.split(",") if i.strip()] if raw_ip else []
+        ip = next((i for i in reversed(ip_list) if not i.startswith(("10.", "172.", "192.168."))), None)
         user_agent = headers.get("User-Agent", "Unknown")
 
         st.session_state._tracker_debug = f"ip={ip} | raw={raw_ip} | ua={user_agent}"
