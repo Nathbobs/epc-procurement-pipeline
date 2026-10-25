@@ -10,6 +10,9 @@ from tracker import log_visitor
 # Config
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
+# SQLAlchemy 2.1+ maps postgresql:// to psycopg (v3); pin the installed psycopg2 driver
+if DATABASE_URL and DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
 
 log_visitor()
 
@@ -234,8 +237,8 @@ with st.sidebar:
     <div class='sb-avatar'>
         <div class='sb-avatar-icon'>🏗️</div>
         <div>
-            <div class='sb-avatar-name'>EPC Procurement</div>
-            <div class='sb-avatar-sub'>Intelligence Pipeline</div>
+            <div class='sb-avatar-name'>ProcureIQ</div>
+            <div class='sb-avatar-sub'>EPC Procurement Intelligence Pipeline</div>
         </div>
     </div>
     <div class='sb-divider'></div>
